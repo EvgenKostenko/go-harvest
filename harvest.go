@@ -24,7 +24,7 @@ type Client struct {
 
 	// Services used for talking to different parts of the Harvest API.
 	Authentication *AuthenticationService
-	//User *UserService
+	User           *UserService
 }
 
 // NewClient returns a new Harvest API client.
@@ -47,6 +47,7 @@ func NewClient(httpClient *http.Client, baseURL string) (*Client, error) {
 		baseURL: parsedBaseURL,
 	}
 	c.Authentication = &AuthenticationService{client: c}
+	c.User = &UserService{client: c}
 	return c, nil
 }
 
@@ -77,6 +78,7 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	}
 
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
 
 	// Set session cookie if there is one
 	if c.session != nil {

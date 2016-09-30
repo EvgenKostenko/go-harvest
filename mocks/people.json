@@ -1,0 +1,134 @@
+[
+  {
+    "user": {
+      "id": 1406631,
+      "email": "zi.creep@gmail.com",
+      "created_at": "2016-09-30T10:43:18Z",
+      "is_admin": true,
+      "first_name": "Evgen",
+      "last_name": "Kostenko",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": "",
+      "wants_newsletter": false,
+      "updated_at": "2016-09-30T10:49:04Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  },
+  {
+    "user": {
+      "id": 1404441,
+      "email": "roma_stakan@gmail.com",
+      "created_at": "2016-09-28T12:00:54Z",
+      "is_admin": false,
+      "first_name": "Roma",
+      "last_name": "Stakan",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": "",
+      "wants_newsletter": false,
+      "updated_at": "2016-09-28T12:00:54Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  },
+  {
+    "user": {
+      "id": 1404419,
+      "email": "h1318966@mvrht.com",
+      "created_at": "2016-09-28T11:34:22Z",
+      "is_admin": true,
+      "first_name": "teamplanner",
+      "last_name": "teamplanner",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": null,
+      "wants_newsletter": false,
+      "updated_at": "2016-09-28T11:58:11Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  },
+  {
+    "user": {
+      "id": 1404469,
+      "email": "test@mev.com",
+      "created_at": "2016-09-28T12:42:42Z",
+      "is_admin": false,
+      "first_name": "test",
+      "last_name": "test",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": "",
+      "wants_newsletter": false,
+      "updated_at": "2016-09-28T12:42:42Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  },
+  {
+    "user": {
+      "id": 1404470,
+      "email": "test2@mev.com",
+      "created_at": "2016-09-28T12:42:55Z",
+      "is_admin": false,
+      "first_name": "test",
+      "last_name": "test",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": "",
+      "wants_newsletter": false,
+      "updated_at": "2016-09-28T12:42:55Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  },
+  {
+    "user": {
+      "id": 1404473,
+      "email": "test4@mev.com",
+      "created_at": "2016-09-28T12:44:09Z",
+      "is_admin": false,
+      "first_name": "test",
+      "last_name": "test",
+      "timezone": "Helsinki",
+      "is_contractor": false,
+      "telephone": "",
+      "is_active": true,
+      "has_access_to_all_future_projects": false,
+      "default_hourly_rate": 0,
+      "department": "",
+      "wants_newsletter": false,
+      "updated_at": "2016-09-28T12:44:09Z",
+      "cost_rate": null,
+      "weekly_capacity": 126000,
+      "signup_redirection_cookie": null
+    }
+  }
+]
