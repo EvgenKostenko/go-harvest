@@ -24,7 +24,7 @@ type Client struct {
 
 	// Services used for talking to different parts of the Harvest API.
 	Authentication *AuthenticationService
-	User *UserService
+	//User *UserService
 }
 
 // NewClient returns a new Harvest API client.
