@@ -83,7 +83,8 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	// Set session cookie if there is one
 	if c.session != nil {
 		req.Header.Set("Authorization", c.session.Authorization)
-		fmt.Printf(c.session.Authorization)
+		// TODO: remove this
+		//fmt.Printf(c.session.Authorization)
 	}
 
 	return req, nil
