@@ -66,4 +66,3 @@ func TestPeopleGetAllWithParameters(t *testing.T) {
 		t.Errorf("Error gilen: %s", err)
 	}
 }
-
