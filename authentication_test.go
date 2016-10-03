@@ -3,9 +3,10 @@ package harvest
 import (
 	"net/http"
 	"testing"
+	"fmt"
 )
 
-func TestAcquire(t *testing.T) {
+func TestAcquireFail(t *testing.T) {
 	setup()
 	defer teardown()
 	testMux.HandleFunc("/account/who_am_i", func(w http.ResponseWriter, r *http.Request) {
@@ -17,6 +18,7 @@ func TestAcquire(t *testing.T) {
 	})
 
 	res, err := testClient.Authentication.Acquire("foo", "bar")
+
 	if err == nil {
 		t.Errorf("Expected error, but no error given")
 	}
@@ -29,7 +31,25 @@ func TestAcquire(t *testing.T) {
 	}
 }
 
-//func TestAcquire(t *testing.T) {
-//	TODO
-//
-//}
+func TestAcquire(t *testing.T) {
+	setup()
+	defer teardown()
+	testAPIEndpoint := "/account/who_am_i"
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testRequestURL(t, r, testAPIEndpoint)
+		fmt.Fprint(w, "{}")
+	})
+
+	res, err := testClient.Authentication.Acquire("user", "password")
+
+	if err != nil {
+		t.Errorf("Expected request, but error given")
+	}
+	if res != true {
+		t.Error("Expected error, but result was true")
+	}
+
+
+}
