@@ -25,6 +25,7 @@ type Client struct {
 	// Services used for talking to different parts of the Harvest API.
 	Authentication *AuthenticationService
 	User           *UserService
+	Project        *ProjectService
 }
 
 // NewClient returns a new Harvest API client.
@@ -48,6 +49,7 @@ func NewClient(httpClient *http.Client, baseURL string) (*Client, error) {
 	}
 	c.Authentication = &AuthenticationService{client: c}
 	c.User = &UserService{client: c}
+	c.Project = &ProjectService{client: c}
 	return c, nil
 }
 
