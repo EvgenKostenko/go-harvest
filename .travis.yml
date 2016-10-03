@@ -9,5 +9,4 @@ go:
 
 before_install:
 
-script:
-  - $HOME/gopath/bin/go test
+script: go test ./...
