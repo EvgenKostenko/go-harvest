@@ -1,9 +1,9 @@
 package harvest
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
-	"fmt"
 )
 
 func TestAcquireFail(t *testing.T) {
@@ -20,7 +20,7 @@ func TestAcquireFail(t *testing.T) {
 	res, err := testClient.Authentication.Acquire("foo", "bar")
 
 	if err == nil {
-		t.Errorf("Expected error, but no error given")
+		t.Error("Expected error, but no error given")
 	}
 	if res == true {
 		t.Error("Expected error, but result was true")
@@ -45,11 +45,10 @@ func TestAcquire(t *testing.T) {
 	res, err := testClient.Authentication.Acquire("user", "password")
 
 	if err != nil {
-		t.Errorf("Expected request, but error given")
+		t.Error("Expected request, but error given", err)
 	}
 	if res != true {
 		t.Error("Expected error, but result was true")
 	}
-
 
 }

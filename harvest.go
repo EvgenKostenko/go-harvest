@@ -114,30 +114,30 @@ func addOptions(s string, opt interface{}) (string, error) {
 	return u.String(), nil
 }
 
-// NewMultiPartRequest creates an API request including a multi-part file.
-// A relative URL can be provided in urlStr, in which case it is resolved relative to the baseURL of the Client.
-// Relative URLs should always be specified without a preceding slash.
-// If specified, the value pointed to by buf is a multipart form.
-func (c *Client) NewMultiPartRequest(method, urlStr string, buf *bytes.Buffer) (*http.Request, error) {
-	rel, err := url.Parse(urlStr)
-	if err != nil {
-		return nil, err
-	}
-
-	u := c.baseURL.ResolveReference(rel)
-
-	req, err := http.NewRequest(method, u.String(), buf)
-	if err != nil {
-		return nil, err
-	}
-
-	// Set session cookie if there is one
-	if c.session != nil {
-		req.Header.Set("Authorization", c.session.Authorization)
-	}
-
-	return req, nil
-}
+//// NewMultiPartRequest creates an API request including a multi-part file.
+//// A relative URL can be provided in urlStr, in which case it is resolved relative to the baseURL of the Client.
+//// Relative URLs should always be specified without a preceding slash.
+//// If specified, the value pointed to by buf is a multipart form.
+//func (c *Client) NewMultiPartRequest(method, urlStr string, buf *bytes.Buffer) (*http.Request, error) {
+//	rel, err := url.Parse(urlStr)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	u := c.baseURL.ResolveReference(rel)
+//
+//	req, err := http.NewRequest(method, u.String(), buf)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	// Set session cookie if there is one
+//	if c.session != nil {
+//		req.Header.Set("Authorization", c.session.Authorization)
+//	}
+//
+//	return req, nil
+//}
 
 // Do sends an API request and returns the API response.
 // The API response is JSON decoded and stored in the value pointed to by v, or returned as an error if an API error has occurred.

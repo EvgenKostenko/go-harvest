@@ -1,0 +1,22 @@
+{
+  "user": {
+    "id": 1404441,
+    "email": "roma_stakan@gmail.com",
+    "created_at": "2016-09-28T12:00:54Z",
+    "is_admin": false,
+    "first_name": "Roma",
+    "last_name": "Stakan",
+    "timezone": "Helsinki",
+    "is_contractor": false,
+    "telephone": "",
+    "is_active": true,
+    "has_access_to_all_future_projects": false,
+    "default_hourly_rate": 0,
+    "department": "",
+    "wants_newsletter": false,
+    "updated_at": "2016-09-30T14:25:56Z",
+    "cost_rate": 40.0,
+    "weekly_capacity": 126000,
+    "signup_redirection_cookie": null
+  }
+}
