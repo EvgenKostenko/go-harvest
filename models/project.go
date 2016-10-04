@@ -15,7 +15,7 @@ type Project struct {
 	BudgetBy                         string    `json:"budget_by"`
 	NotifyWhenOverBudget             bool      `json:"notify_when_over_budget"`
 	OverBudgetNotificationPercentage float64   `json:"over_budget_notification_percentage"`
-	OverBudgetNotifiedAt             string `json:"over_budget_notified_at"`
+	OverBudgetNotifiedAt             string    `json:"over_budget_notified_at"`
 	ShowBudgetToAll                  bool      `json:"show_budget_to_all"`
 	CreatedAt                        time.Time `json:"created_at"`
 	UpdatedAt                        time.Time `json:"updated_at"`
