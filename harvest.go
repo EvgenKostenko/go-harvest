@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/go-querystring/query"
-	"io"
 	"net/http"
 	"net/url"
 	"reflect"
+	"io/ioutil"
+	"io"
 )
 
 // A Client manages communication with the Harvest API.
@@ -65,16 +66,18 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 
 	u := c.baseURL.ResolveReference(rel)
 
-	var buf io.ReadWriter
+	var data io.Reader
 	if body != nil {
-		buf = new(bytes.Buffer)
-		err := json.NewEncoder(buf).Encode(body)
+		b, err := json.Marshal(body)
+
 		if err != nil {
 			return nil, err
 		}
+
+		data = bytes.NewReader(b)
 	}
 
-	req, err := http.NewRequest(method, u.String(), buf)
+	req, err := http.NewRequest(method, u.String(), data)
 	if err != nil {
 		return nil, err
 	}
@@ -172,8 +175,12 @@ func CheckResponse(r *http.Response) error {
 		return nil
 	}
 
-	err := fmt.Errorf("Request failed. Please analyze the request body for more details. Status code: %d", r.StatusCode)
-	return err
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+
+	return fmt.Errorf(string(body))
 }
 
 // GetBaseURL will return you the Base URL.

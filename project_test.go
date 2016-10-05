@@ -5,9 +5,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+	"github.com/EvgenKostenko/go-harvest/models"
 )
 
-func TestProjectsGetAll(t *testing.T) {
+func TestGetProjects_GetAll(t *testing.T) {
 	setup()
 	defer teardown()
 	testAPIEndpoint := "/projects"
@@ -24,9 +25,9 @@ func TestProjectsGetAll(t *testing.T) {
 		fmt.Fprint(w, string(raw))
 	})
 
-	people, _, err := testClient.Project.Projects(nil)
+	projects, _, err := testClient.Project.Projects(nil)
 
-	if people == nil {
+	if projects == nil {
 		t.Error("Expected projects list. Project list is nil")
 	}
 
@@ -35,7 +36,7 @@ func TestProjectsGetAll(t *testing.T) {
 	}
 }
 
-func TestProjectsGetAllWithParameters(t *testing.T) {
+func TestGetProjects_GetAllWithParameters(t *testing.T) {
 	setup()
 	defer teardown()
 	testAPIEndpoint := "/projects"
@@ -57,9 +58,9 @@ func TestProjectsGetAllWithParameters(t *testing.T) {
 		UpdatedSince: "1985-09-30+9:00",
 	}
 
-	people, _, err := testClient.Project.Projects(projectOptions)
+	projects, _, err := testClient.Project.Projects(projectOptions)
 
-	if people == nil {
+	if projects == nil {
 		t.Error("Expected project list. Project list is nil")
 	}
 
@@ -68,7 +69,7 @@ func TestProjectsGetAllWithParameters(t *testing.T) {
 	}
 }
 
-func TestGetProjectSucsess(t *testing.T) {
+func TestGetProjects_Sucsess(t *testing.T) {
 	setup()
 	defer teardown()
 	projectId := 11832718
@@ -94,7 +95,7 @@ func TestGetProjectSucsess(t *testing.T) {
 	}
 }
 
-func TestGetProjectWrongAPIEndpoint(t *testing.T) {
+func TestGetProjects_WrongAPIEndpoint(t *testing.T) {
 	setup()
 	defer teardown()
 	projectId := 11832718
@@ -124,7 +125,7 @@ func TestGetProjectWrongAPIEndpoint(t *testing.T) {
 	}
 }
 
-func TestGetProjectWrongDataFromResponse(t *testing.T) {
+func TestGetProjects_WrongDataFromResponse(t *testing.T) {
 	setup()
 	defer teardown()
 	projectId := 11832718
@@ -193,5 +194,61 @@ func TestGetProjects_ServerError(t *testing.T) {
 
 	if err == nil {
 		t.Errorf("Error given: %s", err)
+	}
+}
+
+
+// Create project
+
+func TestCreateProject_Success(t *testing.T) {
+	setup()
+	defer teardown()
+	testAPIEndpoint := "/projects"
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testRequestURL(t, r, testAPIEndpoint)
+	})
+
+	project := models.Project{ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
+	structProject := ProjectDetail{Project: project}
+
+	resp, err := testClient.Project.CreateProject(&structProject)
+
+	if resp.StatusCode != 200 {
+		t.Errorf("Expected Status code 200. Given %d", resp.StatusCode)
+	}
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+}
+
+// Update project
+
+func TestUpdateProject_Success(t *testing.T) {
+	setup()
+	defer teardown()
+	project := models.Project{ID: 11832718, ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
+	structProject := ProjectDetail{Project: project}
+
+	testAPIEndpoint := fmt.Sprintf("/projects/%d", project.ID)
+	raw, err := ioutil.ReadFile("./mocks/project.json")
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+		testRequestURL(t, r, testAPIEndpoint)
+		fmt.Fprint(w, string(raw))
+	})
+
+
+	resp, err := testClient.Project.UpdateProject(&structProject)
+
+	if resp.StatusCode != 200 {
+		t.Errorf("Expected status 200. Got %s", resp.Status)
+	}
+
+	if err != nil {
+		t.Error(err.Error())
 	}
 }

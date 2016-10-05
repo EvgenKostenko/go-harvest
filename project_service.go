@@ -58,3 +58,48 @@ func (s *ProjectService) GetProject(projectId int) (*models.Project, *http.Respo
 
 	return &project.Project, resp, err
 }
+
+//The method by which the project is budgeted or estimated.
+// Parameter: BudgetBy or EstimateBy
+// Options: Project (Hours Per Project),
+//          Project_Cost (Total Project Fees),
+// 			Task (Hours Per Task),
+// 			Person (Hours Per Person),
+// 			None (No Budget).\
+func (s *ProjectService) CreateProject(project *ProjectDetail) (*http.Response, error) {
+	apiEndpoint := "projects"
+
+	resp, err := s.requestProject("POST", apiEndpoint, project)
+
+	return resp, err
+}
+
+//The method by which the project is budgeted or estimated.
+// Parameter: BudgetBy or EstimateBy
+// Options: Project (Hours Per Project),
+//          Project_Cost (Total Project Fees),
+// 			Task (Hours Per Task),
+// 			Person (Hours Per Person),
+// 			None (No Budget).\
+func (s *ProjectService) UpdateProject(project *ProjectDetail) (*http.Response, error) {
+	apiEndpoint := fmt.Sprintf("projects/%d", project.Project.ID)
+
+	resp, err := s.requestProject("PUT", apiEndpoint, project)
+
+	return resp, err
+}
+
+func (s *ProjectService) requestProject(method, urlStr string, project *ProjectDetail) (*http.Response, error) {
+
+	req, err := s.client.NewRequest(method, urlStr, project)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
+}
