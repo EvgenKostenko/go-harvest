@@ -103,3 +103,19 @@ func (s *ProjectService) requestProject(method, urlStr string, project *ProjectD
 
 	return resp, nil
 }
+
+func (s *ProjectService) DeleteProject(projectId int) (*http.Response, error) {
+	apiEndpoint := fmt.Sprintf("projects/%d", projectId)
+
+	req, err := s.client.NewRequest("DELETE", apiEndpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
+}
