@@ -25,6 +25,10 @@ type PeopleOptions struct {
 	UpdatedSince string `url:"updated_since,omitempty"`
 }
 
+type UserParameters struct {
+	User models.UserParameters `json:"user"`
+}
+
 func (s *UserService) People(opt *PeopleOptions) (*People, *http.Response, error) {
 	apiEndpoint := "people"
 	url, err := addOptions(apiEndpoint, opt)
@@ -56,4 +60,33 @@ func (s *UserService) GetUser(userId int) (*models.User, *http.Response, error) 
 	}
 
 	return &user.User, resp, err
+}
+
+// Create new user
+// POST https://YOURACCOUNT.harvestapp.com/people
+// HTTP Response: 201 Created
+// Upon creation, we’ll send an email to the user with instructions for setting a password.
+// At minimum, you’ll need to include values for email, first-name, and last-name
+func (s *UserService) CreateUser(user *models.UserParameters) (*http.Response, error) {
+	apiEndpoint := "people"
+	userDetail := UserParameters{User: *user}
+	resp, err := s.requestUser("POST", apiEndpoint, &userDetail)
+
+	return resp, err
+}
+
+// This is universal method for create or update user
+func (s *UserService) requestUser(method, urlStr string, user *UserParameters) (*http.Response, error) {
+
+	req, err := s.client.NewRequest(method, urlStr, user)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
 }

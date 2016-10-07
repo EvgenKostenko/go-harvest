@@ -59,7 +59,9 @@ func (s *ProjectService) GetProject(projectId int) (*models.Project, *http.Respo
 	return &project.Project, resp, err
 }
 
-//The method by which the project is budgeted or estimated.
+// Create A New Project
+// HTTP Response: 201 Created
+// The method by which the project is budgeted or estimated.
 // Parameter: BudgetBy or EstimateBy
 // Options: Project (Hours Per Project),
 //          Project_Cost (Total Project Fees),
@@ -89,6 +91,7 @@ func (s *ProjectService) UpdateProject(project *ProjectDetail) (*http.Response, 
 	return resp, err
 }
 
+// This is universal method for create or update project
 func (s *ProjectService) requestProject(method, urlStr string, project *ProjectDetail) (*http.Response, error) {
 
 	req, err := s.client.NewRequest(method, urlStr, project)

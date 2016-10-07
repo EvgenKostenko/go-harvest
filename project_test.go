@@ -69,7 +69,7 @@ func TestGetProjects_GetAllWithParameters(t *testing.T) {
 	}
 }
 
-func TestGetProjects_Sucsess(t *testing.T) {
+func TestGetProject_Sucsess(t *testing.T) {
 	setup()
 	defer teardown()
 	projectId := 11832718
@@ -95,65 +95,7 @@ func TestGetProjects_Sucsess(t *testing.T) {
 	}
 }
 
-func TestGetProjects_WrongAPIEndpoint(t *testing.T) {
-	setup()
-	defer teardown()
-	projectId := 11832718
-
-	testAPIEndpoint := fmt.Sprintf("projects/%d", projectId)
-
-	raw, err := ioutil.ReadFile("./mocks/project.json")
-
-	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, string(raw))
-	})
-
-	u, resp, err := testClient.Project.GetProject(projectId)
-
-	if u != nil {
-		t.Errorf("Expected nil. Got %+v", u)
-	}
-
-	if resp.Status == "404" {
-		t.Errorf("Expected status 404. Got %s", resp.Status)
-	}
-
-	if err == nil {
-		t.Errorf("Error given: %s", err)
-	}
-}
-
-func TestGetProjects_WrongDataFromResponse(t *testing.T) {
-	setup()
-	defer teardown()
-	projectId := 11832718
-
-	testAPIEndpoint := fmt.Sprintf("/projects/%d", projectId)
-
-	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, "{ 'foo': 'bar' }")
-	})
-
-	u, resp, err := testClient.Project.GetProject(projectId)
-
-	if u != nil {
-		t.Errorf("Expected nil. Got %+v", u)
-	}
-
-	if resp.Status == "200" {
-		t.Errorf("Expected status 200. Got %s", resp.Status)
-	}
-
-	if err == nil {
-		t.Errorf("Error given: %s", err)
-	}
-}
-
-func TestGetProjects_NoProjects(t *testing.T) {
+func TestGetProject_NoProjects(t *testing.T) {
 	setup()
 	defer teardown()
 	projectId := 2222
@@ -181,7 +123,7 @@ func TestGetProjects_NoProjects(t *testing.T) {
 	}
 }
 
-func TestGetProjects_ServerError(t *testing.T) {
+func TestGetProject_ServerError(t *testing.T) {
 	projectId := 2222
 
 	testClient, _ = NewClient(nil, "https://harvest.com/test")
@@ -222,7 +164,7 @@ func TestCreateProject_Success(t *testing.T) {
 	}
 }
 
-func TestCreateProjects_WrongData(t *testing.T) {
+func TestCreateProject_WrongData(t *testing.T) {
 	setup()
 	defer teardown()
 	testAPIEndpoint := "/projects"

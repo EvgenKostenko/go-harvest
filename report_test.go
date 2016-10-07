@@ -1,10 +1,10 @@
 package harvest
 
 import (
-	"testing"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"testing"
 )
 
 // tests ByProject
@@ -26,7 +26,7 @@ func TestGetDayEntriesByProject_Sucsess(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, _, err := testClient.Report.DayEntriesByProject(projectId, reportOptions)
@@ -53,7 +53,7 @@ func TestGetDayEntriesByProject_BadRequest(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, resp, err := testClient.Report.DayEntriesByProject(projectId, reportOptions)
@@ -86,7 +86,7 @@ func TestGetDayEntriesByProject_NoProjects(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, resp, err := testClient.Report.DayEntriesByProject(projectId, reportOptions)
@@ -111,7 +111,7 @@ func TestGetDayEntriesByProject_ServerError(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, _, err := testClient.Report.DayEntriesByProject(projectId, reportOptions)
@@ -124,7 +124,6 @@ func TestGetDayEntriesByProject_ServerError(t *testing.T) {
 		t.Errorf("Error given: %s", err)
 	}
 }
-
 
 // tests ByUser
 
@@ -145,7 +144,7 @@ func TestGetDayEntriesByUser_Sucsess(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, _, err := testClient.Report.DayEntriesByUser(userId, reportOptions)
@@ -172,7 +171,7 @@ func TestGetDayEntriesByUser_BadRequest(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, resp, err := testClient.Report.DayEntriesByUser(userId, reportOptions)
@@ -205,7 +204,7 @@ func TestGetDayEntriesByUser_NoProjects(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, resp, err := testClient.Report.DayEntriesByUser(userId, reportOptions)
@@ -230,7 +229,7 @@ func TestGetDayEntriesByUser_ServerError(t *testing.T) {
 
 	reportOptions := &ReportOptions{
 		From: "1985-09-30+9:00",
-		To: "1985-09-30+9:00",
+		To:   "1985-09-30+9:00",
 	}
 
 	u, _, err := testClient.Report.DayEntriesByProject(userId, reportOptions)
