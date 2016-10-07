@@ -75,6 +75,19 @@ func (s *UserService) CreateUser(user *models.UserParameters) (*http.Response, e
 	return resp, err
 }
 
+// Update user by ID
+// PUT https://YOURACCOUNT.harvestapp.com/people/{USERID}
+// HTTP Response: 200 OK
+// You can update selected attributes for a user with this request.
+// Note, updates to password are disregarded.
+func (s *UserService) UpdateUser(user *models.UserParameters) (*http.Response, error) {
+	apiEndpoint := fmt.Sprintf("people/%d", user.ID)
+	userDetail := UserParameters{User: *user}
+	resp, err := s.requestUser("PUT", apiEndpoint, &userDetail)
+
+	return resp, err
+}
+
 // This is universal method for create or update user
 func (s *UserService) requestUser(method, urlStr string, user *UserParameters) (*http.Response, error) {
 

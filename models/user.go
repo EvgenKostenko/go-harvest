@@ -24,16 +24,17 @@ type User struct {
 }
 
 type UserParameters struct {
-	Email                        string  `json:"email"`
-	IsAdmin                      bool    `json:"is_admin"`
-	FirstName                    string  `json:"first_name"`
-	LastName                     string  `json:"last_name"`
-	Timezone                     string  `json:"timezone"`
-	IsContractor                 bool    `json:"is_contractor"`
-	Telephone                    string  `json:"telephone"`
-	IsActive                     bool    `json:"is_active"`
-	HasAccessToAllFutureProjects bool    `json:"has_access_to_all_future_projects"`
-	DefaultHourlyRate            int     `json:"default_hourly_rate"`
-	Department                   string  `json:"department"`
-	CostRate                     float64 `json:"cost_rate"`
+	ID                           int     `json:"id,omitempty"`
+	Email                        string  `json:"email,omitempty"`
+	IsAdmin                      bool    `json:"is_admin,omitempty"`
+	FirstName                    string  `json:"first_name,omitempty"`
+	LastName                     string  `json:"last_name,omitempty"`
+	Timezone                     string  `json:"timezone,omitempty"`
+	IsContractor                 bool    `json:"is_contractor,omitempty"`
+	Telephone                    string  `json:"telephone,omitempty"`
+	IsActive                     bool    `json:"is_active,omitempty"`
+	HasAccessToAllFutureProjects bool    `json:"has_access_to_all_future_projects,omitempty"`
+	DefaultHourlyRate            int     `json:"default_hourly_rate,omitempty"`
+	Department                   string  `json:"department,omitempty"`
+	CostRate                     float64 `json:"cost_rate,omitempty"`
 }

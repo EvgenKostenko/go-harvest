@@ -223,3 +223,34 @@ func TestCreateUser_WrongData(t *testing.T) {
 		t.Errorf("Error given: %s", err)
 	}
 }
+
+func TestUpdateUser_Success(t *testing.T) {
+	setup()
+	defer teardown()
+	user := models.UserParameters{
+		ID: 1,
+		Email: "test@test.com",
+		FirstName: "TestName",
+		LastName:  "TestSoname",
+		IsContractor: true,
+	}
+
+	testAPIEndpoint := fmt.Sprintf("/people/%d", user.ID)
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+		testRequestURL(t, r, testAPIEndpoint)
+		fmt.Fprint(w, "{}")
+	})
+
+
+	resp, err := testClient.User.UpdateUser(&user)
+
+	if resp.StatusCode != 200 {
+		t.Errorf("Expected Status code 200. Given %d", resp.StatusCode)
+	}
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+}
