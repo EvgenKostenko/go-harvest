@@ -34,8 +34,23 @@ type DayEntries []struct {
 	DayEntry models.DayEntry `json:"day_entry"`
 }
 
-func (s *ReportService) DayEntries(projectId int, opt *ReportOptions) (*DayEntries, *http.Response, error) {
+func (s *ReportService) DayEntriesByProject(projectId int, opt *ReportOptions) (*DayEntries, *http.Response, error) {
 	apiEndpoint := fmt.Sprintf("projects/%d/entries", projectId)
+
+	dayEntries, resp, err := s.requestDayEntries(apiEndpoint, opt)
+
+	return dayEntries, resp, err
+}
+
+func (s *ReportService) DayEntriesByUser(userId int, opt *ReportOptions) (*DayEntries, *http.Response, error) {
+	apiEndpoint := fmt.Sprintf("people/%d/entries", userId)
+
+	dayEntries, resp, err := s.requestDayEntries(apiEndpoint, opt)
+
+	return dayEntries, resp, err
+}
+
+func (s *ReportService) requestDayEntries(apiEndpoint string, opt *ReportOptions) (*DayEntries, *http.Response, error) {
 	url, err := addOptions(apiEndpoint, opt)
 	req, err := s.client.NewRequest("GET", url, nil)
 	if err != nil {
