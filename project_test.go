@@ -2,10 +2,10 @@ package harvest
 
 import (
 	"fmt"
+	"github.com/EvgenKostenko/go-harvest/models"
 	"io/ioutil"
 	"net/http"
 	"testing"
-	"github.com/EvgenKostenko/go-harvest/models"
 )
 
 func TestGetProjects_GetAll(t *testing.T) {
@@ -159,21 +159,20 @@ func TestGetProjects_NoProjects(t *testing.T) {
 	projectId := 2222
 
 	testAPIEndpoint := fmt.Sprintf("/projects/%d", projectId)
-	raw, err := ioutil.ReadFile("./mocks/projects.json")
 
 	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, string(raw))
+		fmt.Fprint(w, "{ 'foo': 'bar' }")
 	})
 
-	u, resp, err := testClient.User.GetUser(projectId)
+	u, resp, err := testClient.Project.GetProject(projectId)
 
 	if u != nil {
 		t.Errorf("Expected nil. Got %+v", u)
 	}
 
-	if resp.Status == "404" {
+	if resp.StatusCode == 404 {
 		t.Errorf("Expected status 404. Got %s", resp.Status)
 	}
 
@@ -186,7 +185,7 @@ func TestGetProjects_ServerError(t *testing.T) {
 	projectId := 2222
 
 	testClient, _ = NewClient(nil, "https://harvest.com/test")
-	u, _, err := testClient.User.GetUser(projectId)
+	u, _, err := testClient.Project.GetProject(projectId)
 
 	if u != nil {
 		t.Errorf("Expected nil. Got %+v", u)
@@ -197,8 +196,7 @@ func TestGetProjects_ServerError(t *testing.T) {
 	}
 }
 
-
-// Create project
+// Create a project
 
 func TestCreateProject_Success(t *testing.T) {
 	setup()
@@ -224,7 +222,30 @@ func TestCreateProject_Success(t *testing.T) {
 	}
 }
 
-// Update project
+func TestCreateProjects_WrongData(t *testing.T) {
+	setup()
+	defer teardown()
+	testAPIEndpoint := "/projects"
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Bad Request", 400)
+	})
+
+	project := models.Project{ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
+	structProject := ProjectDetail{Project: project}
+
+	resp, err := testClient.Project.CreateProject(&structProject)
+
+	if resp.StatusCode != 400 {
+		t.Errorf("Expected status 400. Got %s", resp.Status)
+	}
+
+	if err == nil {
+		t.Errorf("Error given: %s", err)
+	}
+}
+
+// Update a project
 
 func TestUpdateProject_Success(t *testing.T) {
 	setup()
@@ -241,7 +262,6 @@ func TestUpdateProject_Success(t *testing.T) {
 		fmt.Fprint(w, string(raw))
 	})
 
-
 	resp, err := testClient.Project.UpdateProject(&structProject)
 
 	if resp.StatusCode != 200 {
@@ -250,5 +270,53 @@ func TestUpdateProject_Success(t *testing.T) {
 
 	if err != nil {
 		t.Error(err.Error())
+	}
+}
+
+// Delete a project
+
+func TestDeleteProject_Success(t *testing.T) {
+	setup()
+	defer teardown()
+	projectId := 11832718
+
+	testAPIEndpoint := fmt.Sprintf("/projects/%d", projectId)
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+		testRequestURL(t, r, testAPIEndpoint)
+		fmt.Fprint(w, "{ 'foo': 'bar' }")
+	})
+
+	resp, err := testClient.Project.DeleteProject(projectId)
+
+	if resp.StatusCode != 200 {
+		t.Errorf("Expected status 200. Got %s", resp.Status)
+	}
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+}
+
+func TestDeleteProjects_NoProjects(t *testing.T) {
+	setup()
+	defer teardown()
+	projectId := 2222
+
+	testAPIEndpoint := fmt.Sprintf("/projects/%d", projectId)
+
+	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Bad Request", 400)
+	})
+
+	resp, err := testClient.Project.DeleteProject(projectId)
+
+	if resp.StatusCode != 400 {
+		t.Errorf("Expected status 400. Got %s", resp.Status)
+	}
+
+	if err == nil {
+		t.Errorf("Error given: %s", err)
 	}
 }

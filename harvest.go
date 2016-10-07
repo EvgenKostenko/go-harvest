@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/go-querystring/query"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"reflect"
-	"io/ioutil"
-	"io"
 )
 
 // A Client manages communication with the Harvest API.
@@ -27,6 +27,7 @@ type Client struct {
 	Authentication *AuthenticationService
 	User           *UserService
 	Project        *ProjectService
+	Report         *ReportService
 }
 
 // NewClient returns a new Harvest API client.
@@ -51,6 +52,7 @@ func NewClient(httpClient *http.Client, baseURL string) (*Client, error) {
 	c.Authentication = &AuthenticationService{client: c}
 	c.User = &UserService{client: c}
 	c.Project = &ProjectService{client: c}
+	c.Report = &ReportService{client: c}
 	return c, nil
 }
 
