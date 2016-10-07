@@ -21,7 +21,7 @@ type ProjectOptions struct {
 	UpdatedSince string `url:"updated_since,omitempty"`
 }
 
-//Type for users list
+//Type for project list
 type Projects []struct {
 	Project models.Project `json:"project"`
 }

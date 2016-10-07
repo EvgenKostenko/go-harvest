@@ -2,10 +2,10 @@ package harvest
 
 import (
 	"fmt"
+	"github.com/EvgenKostenko/go-harvest/models"
 	"io/ioutil"
 	"net/http"
 	"testing"
-	"github.com/EvgenKostenko/go-harvest/models"
 )
 
 func TestGetProjects_GetAll(t *testing.T) {
@@ -159,21 +159,20 @@ func TestGetProjects_NoProjects(t *testing.T) {
 	projectId := 2222
 
 	testAPIEndpoint := fmt.Sprintf("/projects/%d", projectId)
-	raw, err := ioutil.ReadFile("./mocks/projects.json")
 
 	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, string(raw))
+		fmt.Fprint(w, "{ 'foo': 'bar' }")
 	})
 
-	u, resp, err := testClient.User.GetUser(projectId)
+	u, resp, err := testClient.Project.GetProject(projectId)
 
 	if u != nil {
 		t.Errorf("Expected nil. Got %+v", u)
 	}
 
-	if resp.Status == "404" {
+	if resp.StatusCode == 404 {
 		t.Errorf("Expected status 404. Got %s", resp.Status)
 	}
 
@@ -186,7 +185,7 @@ func TestGetProjects_ServerError(t *testing.T) {
 	projectId := 2222
 
 	testClient, _ = NewClient(nil, "https://harvest.com/test")
-	u, _, err := testClient.User.GetUser(projectId)
+	u, _, err := testClient.Project.GetProject(projectId)
 
 	if u != nil {
 		t.Errorf("Expected nil. Got %+v", u)
@@ -196,7 +195,6 @@ func TestGetProjects_ServerError(t *testing.T) {
 		t.Errorf("Error given: %s", err)
 	}
 }
-
 
 // Create a project
 
