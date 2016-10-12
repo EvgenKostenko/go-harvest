@@ -151,9 +151,8 @@ func TestCreateProject_Success(t *testing.T) {
 	})
 
 	project := models.Project{ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
-	structProject := ProjectDetail{Project: project}
 
-	resp, err := testClient.Project.CreateProject(&structProject)
+	resp, err := testClient.Project.CreateProject(&project)
 
 	if resp.StatusCode != 200 {
 		t.Errorf("Expected Status code 200. Given %d", resp.StatusCode)
@@ -174,9 +173,8 @@ func TestCreateProject_WrongData(t *testing.T) {
 	})
 
 	project := models.Project{ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
-	structProject := ProjectDetail{Project: project}
 
-	resp, err := testClient.Project.CreateProject(&structProject)
+	resp, err := testClient.Project.CreateProject(&project)
 
 	if resp.StatusCode != 400 {
 		t.Errorf("Expected status 400. Got %s", resp.Status)
@@ -193,18 +191,16 @@ func TestUpdateProject_Success(t *testing.T) {
 	setup()
 	defer teardown()
 	project := models.Project{ID: 11832718, ClientID: 4868513, Name: "NEW PROJECT 26", Active: true, Notes: "Hello"}
-	structProject := ProjectDetail{Project: project}
 
 	testAPIEndpoint := fmt.Sprintf("/projects/%d", project.ID)
-	raw, err := ioutil.ReadFile("./mocks/project.json")
 
 	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
 		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, string(raw))
+		fmt.Fprint(w, "{}")
 	})
 
-	resp, err := testClient.Project.UpdateProject(&structProject)
+	resp, err := testClient.Project.UpdateProject(&project)
 
 	if resp.StatusCode != 200 {
 		t.Errorf("Expected status 200. Got %s", resp.Status)
@@ -227,7 +223,7 @@ func TestDeleteProject_Success(t *testing.T) {
 	testMux.HandleFunc(testAPIEndpoint, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 		testRequestURL(t, r, testAPIEndpoint)
-		fmt.Fprint(w, "{ 'foo': 'bar' }")
+		fmt.Fprint(w, "{}")
 	})
 
 	resp, err := testClient.Project.DeleteProject(projectId)

@@ -68,10 +68,10 @@ func (s *ProjectService) GetProject(projectId int) (*models.Project, *http.Respo
 // 			Task (Hours Per Task),
 // 			Person (Hours Per Person),
 // 			None (No Budget).\
-func (s *ProjectService) CreateProject(project *ProjectDetail) (*http.Response, error) {
+func (s *ProjectService) CreateProject(project *models.Project) (*http.Response, error) {
 	apiEndpoint := "projects"
-
-	resp, err := s.requestProject("POST", apiEndpoint, project)
+	projectDetail := ProjectDetail{Project: *project}
+	resp, err := s.requestProject("POST", apiEndpoint, &projectDetail)
 
 	return resp, err
 }
@@ -83,18 +83,18 @@ func (s *ProjectService) CreateProject(project *ProjectDetail) (*http.Response, 
 // 			Task (Hours Per Task),
 // 			Person (Hours Per Person),
 // 			None (No Budget).\
-func (s *ProjectService) UpdateProject(project *ProjectDetail) (*http.Response, error) {
-	apiEndpoint := fmt.Sprintf("projects/%d", project.Project.ID)
-
-	resp, err := s.requestProject("PUT", apiEndpoint, project)
+func (s *ProjectService) UpdateProject(project *models.Project) (*http.Response, error) {
+	apiEndpoint := fmt.Sprintf("projects/%d", project.ID)
+	projectDetail := ProjectDetail{Project: *project}
+	resp, err := s.requestProject("PUT", apiEndpoint, &projectDetail)
 
 	return resp, err
 }
 
 // This is universal method for create or update project
-func (s *ProjectService) requestProject(method, urlStr string, project *ProjectDetail) (*http.Response, error) {
+func (s *ProjectService) requestProject(method, urlStr string, projectDetail *ProjectDetail) (*http.Response, error) {
 
-	req, err := s.client.NewRequest(method, urlStr, project)
+	req, err := s.client.NewRequest(method, urlStr, projectDetail)
 	if err != nil {
 		return nil, err
 	}
