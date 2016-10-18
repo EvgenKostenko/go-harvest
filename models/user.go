@@ -14,7 +14,7 @@ type User struct {
 	Telephone                    string    `json:"telephone"`
 	IsActive                     bool      `json:"is_active"`
 	HasAccessToAllFutureProjects bool      `json:"has_access_to_all_future_projects"`
-	DefaultHourlyRate            int       `json:"default_hourly_rate"`
+	DefaultHourlyRate            float64   `json:"default_hourly_rate"`
 	Department                   string    `json:"department"`
 	WantsNewsletter              bool      `json:"wants_newsletter"`
 	UpdatedAt                    time.Time `json:"updated_at"`
@@ -34,7 +34,7 @@ type UserParameters struct {
 	Telephone                    string  `json:"telephone,omitempty"`
 	IsActive                     bool    `json:"is_active,omitempty"`
 	HasAccessToAllFutureProjects bool    `json:"has_access_to_all_future_projects,omitempty"`
-	DefaultHourlyRate            int     `json:"default_hourly_rate,omitempty"`
+	DefaultHourlyRate            float64 `json:"default_hourly_rate,omitempty"`
 	Department                   string  `json:"department,omitempty"`
 	CostRate                     float64 `json:"cost_rate,omitempty"`
 }
